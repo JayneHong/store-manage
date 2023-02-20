@@ -5,7 +5,7 @@ import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import { increment, decrement, incrementByAmount } from '@/stores/counter'
 import { RootState, useAppDispatch } from '@/stores'
 import http from '@/api'
-import AddUserMOdal from './components/AddUserModal'
+import AddUserMOdal from './components/SupplierModal'
 
 const { Search } = Input
 

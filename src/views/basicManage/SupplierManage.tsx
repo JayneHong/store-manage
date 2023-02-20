@@ -5,7 +5,7 @@ import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import { increment, decrement, incrementByAmount } from '@/stores/counter'
 import { RootState, useAppDispatch } from '@/stores'
 import http from '@/api'
-import AddUserMOdal from './components/AddUserModal'
+import SupplierModal from './components/SupplierModal'
 
 const { Search } = Input
 
@@ -49,11 +49,6 @@ const SupplierManage = () => {
     },
     {
       title: '供应商电话',
-      dataIndex: 'age',
-      key: 'age',
-    },
-    {
-      title: '邮编',
       dataIndex: 'age',
       key: 'age',
     },
@@ -146,7 +141,7 @@ const SupplierManage = () => {
         columns={columns}
       />
 
-      <AddUserMOdal
+      <SupplierModal
         visible={showAddUserModal}
         onClose={() => setShowAddUserModal(false)}
       />
