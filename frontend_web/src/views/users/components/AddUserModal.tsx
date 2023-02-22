@@ -1,10 +1,10 @@
 import { FC, useEffect, useState } from 'react'
-import { Table, Button, Space, Input, Modal, Form, Radio } from 'antd'
+import { Table, Button, Space, Input, Modal, Form, Radio, message } from 'antd'
 import { useQuery } from 'react-query'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import { increment, decrement, incrementByAmount } from '@/stores/counter'
 import { RootState, useAppDispatch } from '@/stores'
-import http from '@/api'
+import { addUser } from '@/api/modules/user'
 import { FormInstance, useForm } from 'antd/es/form/Form'
 
 const { Search } = Input
@@ -16,8 +16,7 @@ interface AddUserModalProps {
 
 const AddUserModal: FC<AddUserModalProps> = (props) => {
   const { visible, onClose } = props
-  const dispatch = useAppDispatch()
-  const state = useSelector<RootState>((state) => state.counter.count)
+  const [isLoading, setLoading] = useState(false)
 
   const [form] = Form.useForm<FormInstance>()
 
@@ -29,10 +28,15 @@ const AddUserModal: FC<AddUserModalProps> = (props) => {
     onClose?.()
   }
 
-  const onSubmit = (values: FormInstance<string>) => {
-    console.log('====================================')
-    console.log('xxxxxx', values)
-    console.log('====================================')
+  const onSubmit = async (values: FormInstance<string>) => {
+    setLoading(true)
+    const res = await addUser({ ...values })
+
+    if (res.code === 0) {
+      message.success('添加成功')
+    }
+    setLoading(false)
+    handleClose()
   }
 
   useEffect(() => {
@@ -66,16 +70,19 @@ const AddUserModal: FC<AddUserModalProps> = (props) => {
         >
           <Form.Item
             label="用户名"
-            name="usename"
+            name="username"
             rules={[{ required: true, message: '请输入用户名' }]}
           >
             <Input />
           </Form.Item>
           <Form.Item
-            label="手机号"
-            name="phone"
-            rules={[{ required: true, message: '请输入手机号' }]}
+            label="密码"
+            name="password"
+            rules={[{ required: true, message: '请输入用户名' }]}
           >
+            <Input />
+          </Form.Item>
+          <Form.Item label="手机号" name="phone">
             <Input />
           </Form.Item>
         </Form>
