@@ -9,8 +9,7 @@ import {
   CloseCircleOutlined,
 } from '@ant-design/icons'
 
-import http from '@/api'
-import { loginApi } from '@/api/modules/login'
+import { apiUserLogin } from '@/api/user'
 import styles from '../index.module.scss'
 
 const LoginForm = (props: any) => {
@@ -20,22 +19,11 @@ const LoginForm = (props: any) => {
   const [form] = Form.useForm()
   const [loading, setLoading] = useState<boolean>(false)
 
-  // 获取验证码
-  const { data, isLoading, isError, status, refetch } = useQuery(
-    'handleCaptcha',
-    () => http.get('/prod-api/captchaImage'),
-    { enabled: false }
-  )
-
-  const requestCaptchaImage = () => {
-    refetch()
-  }
-
   // 登录
   const onFinish = async (loginForm: any) => {
     try {
       setLoading(true)
-      const { data } = await loginApi(loginForm)
+      const { data } = await apiUserLogin(loginForm)
       // setToken(data?.access_token);
       // setTabsList([]);
       console.log('........', data)

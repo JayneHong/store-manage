@@ -1,6 +1,6 @@
 import { useLocation, Navigate } from 'react-router-dom'
 import { HOME_URL } from '@/config/config'
-import { AxiosCanceler } from '@/api/helper/axiosCancel'
+import { AxiosCanceler } from '@/_bak/api/helper/axiosCancel'
 
 const axiosCanceler = new AxiosCanceler()
 

@@ -4,7 +4,7 @@ import { useQuery } from 'react-query'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import { increment, decrement, incrementByAmount } from '@/stores/counter'
 import { RootState, useAppDispatch } from '@/stores'
-import { getUserListApi } from '@/api/modules/user'
+import { getUserListApi } from '@/_bak/api/modules/user'
 import AddUserMOdal from './components/AddUserModal'
 
 const { Search } = Input

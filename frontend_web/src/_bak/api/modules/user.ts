@@ -1,7 +1,7 @@
-import { Login } from '@/api/interface/index'
+import { Login } from '@/_bak/api/interface'
 import qs from 'qs'
 
-import http from '@/api'
+import http from '@/_bak/api'
 
 /**
  * @name 用户模块

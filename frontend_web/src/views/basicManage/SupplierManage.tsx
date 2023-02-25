@@ -4,7 +4,7 @@ import { useQuery } from 'react-query'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import { increment, decrement, incrementByAmount } from '@/stores/counter'
 import { RootState, useAppDispatch } from '@/stores'
-import http from '@/api'
+import http from '@/_bak/api'
 import SupplierModal from './components/SupplierModal'
 
 const { Search } = Input

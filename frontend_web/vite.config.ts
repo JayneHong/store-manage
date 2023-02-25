@@ -61,10 +61,9 @@ export default defineConfig({
     port: 9090,
     open: true,
     proxy: {
-      '/api': {
-        target: 'http://192.168.124.195:8888',
+      '^/api': {
+        target: 'http://127.0.0.1:8080',
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, ''),
       },
     },
   },

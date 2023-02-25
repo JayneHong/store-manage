@@ -5,7 +5,7 @@ import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import { FormInstance, useForm } from 'antd/es/form/Form'
 import { increment, decrement, incrementByAmount } from '@/stores/counter'
 import { RootState, useAppDispatch } from '@/stores'
-import http from '@/api'
+import http from '@/_bak/api'
 import { PlusOutlined } from '@ant-design/icons'
 import styles from './SupplierModal.module.scss'
 

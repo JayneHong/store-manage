@@ -4,7 +4,7 @@ import { useQuery } from 'react-query'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import { increment, decrement, incrementByAmount } from '@/stores/counter'
 import { RootState, useAppDispatch } from '@/stores'
-import { addUser } from '@/api/modules/user'
+import { addUser } from '@/_bak/api/modules/user'
 import { FormInstance, useForm } from 'antd/es/form/Form'
 
 const { Search } = Input

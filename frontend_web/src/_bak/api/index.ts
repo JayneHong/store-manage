@@ -4,7 +4,7 @@ import axios, {
   AxiosRequestConfig,
   AxiosResponse,
 } from 'axios'
-import { ResultData } from '@/api/interface/index'
+import { ResultData } from '@/_bak/api/interface'
 import { ResultEnum } from '@/enums/httpEnum'
 import { checkStatus } from './helper/checkStatus'
 import { AxiosCanceler } from './helper/axiosCancel'
