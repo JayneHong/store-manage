@@ -26,7 +26,14 @@ axios.interceptors.response.use(res => {
 
 function get(url: string, param?: any) {
     const fullUrl = paramToUrl(url, param);
-    return axios.get(fullUrl, {})
+    return new Promise((resolve, reject) => {
+        axios.get(fullUrl, {})
+            .then(res => {
+                resolve(res);
+            }).catch(err => {
+            reject(err);
+        });
+    });
 }
 
 function postJson(url: string, param?: any) {
