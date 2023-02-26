@@ -3,29 +3,35 @@ import axios from "axios";
 // request
 axios.interceptors.request.use(req => {
     console.log(`${req.method} ${req.url}`);
-
     return req;
 });
 
 // response
 axios.interceptors.response.use(res => {
-    console.log(res.data.json);
-    return res;
+    console.log(res.data);
+    if(res.data.status === 200){
+        return res;
+    }
+    return Promise.reject(res.data.message);
 });
 
 function get(url: string, param?: any) {
     const fullUrl = paramToUrl(url, param);
-    return axios.get(fullUrl, {
-
-    })
+    return axios.get(fullUrl, {})
 }
 
 function postJson(url: string, param?: any) {
     const jsonObj = JSON.stringify(param);
-    return axios.post(url, jsonObj, {
-        headers: {
-            'Content-Type': 'application/json'
-        }
+    return new Promise((resolve, reject) => {
+        axios.post(url, jsonObj, {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then(res => {
+            resolve(res);
+        }).catch(err => {
+            reject(err);
+        });
     });
 }
 
