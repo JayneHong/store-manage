@@ -1,0 +1,19 @@
+.header {
+  height: 55px;
+  background-color: #fff;
+
+  .title {
+    color: #fff;
+    font-size: 20px;
+    margin-left: -30px;
+  }
+
+  .userLogo {
+    float: right;
+    color: #fff;
+
+    .avatar {
+      background-color: gray;
+    }
+  }
+}

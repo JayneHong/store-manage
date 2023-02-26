@@ -9,6 +9,7 @@ import {
 import { Layout, Menu, theme } from 'antd'
 import { Outlet } from 'react-router-dom'
 import MainMenu from '@/components/layoutMenu'
+import LayoutHeader from '@/components/layoutHeader'
 import styles from './index.module.scss'
 
 const { Header, Sider, Content } = Layout
@@ -30,9 +31,9 @@ const HomeLayout: React.FC = () => {
         <MainMenu />
       </Sider>
       <Layout className="site-layout">
-        <Header style={{ padding: 0, background: '#fff', height: 55 }}></Header>
+        <LayoutHeader />
         <Content
-        className={styles['layout-content']}
+          className={styles['layout-content']}
           // style={{
           //   margin: '20px 16px',
           //   padding: 20,
