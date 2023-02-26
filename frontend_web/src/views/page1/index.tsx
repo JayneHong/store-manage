@@ -1,5 +1,6 @@
-import { useState } from 'react'
-import { Table, Button, Space } from 'antd'
+import { useEffect, useRef, useState } from 'react'
+import { Table, Button, Space, Col, Row } from 'antd'
+import * as echarts from 'echarts'
 import { useQuery } from 'react-query'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import { increment, decrement, incrementByAmount } from '@/stores/counter'
@@ -9,110 +10,81 @@ import http from '@/_bak/api'
 const Page1 = () => {
   const dispatch = useAppDispatch()
   const state = useSelector<RootState>((state) => state.counter.count)
-  const [tableDataSource, changeTableDataSource] = useState([
-    {
-      key: '1',
-      name: '胡彦斌',
-      age: 32,
-      address: '西湖区湖底公园1号',
-    },
-    {
-      key: '2',
-      name: '胡彦祖',
-      age: 42,
-      address: '西湖区湖底公园1号',
-    },
-  ])
+  const barEchartRef = useRef(null)
+  const pieEchartRef = useRef(null)
 
-  const columns = [
-    {
-      title: '姓名',
-      dataIndex: 'name',
-      key: 'name',
+  var barOption = {
+    title: {
+      text: 'ECharts 入门示例',
     },
-    {
-      title: '年龄',
-      dataIndex: 'age',
-      key: 'age',
+    tooltip: {},
+    legend: {
+      data: ['销量'],
     },
-    {
-      title: '住址',
-      dataIndex: 'address',
-      key: 'address',
+    xAxis: {
+      data: ['衬衫', '羊毛衫', '雪纺衫', '裤子', '高跟鞋', '袜子'],
     },
-  ]
-  const handleAdd = () => {
-    console.log('添加')
-    changeTableDataSource([
-      ...tableDataSource,
+    yAxis: {},
+    series: [
       {
-        key: `${tableDataSource.length + 1}`,
-        name: '胡彦祖',
-        age: 42,
-        address: '西湖区湖底公园1号',
+        name: '销量',
+        type: 'bar',
+        data: [5, 20, 36, 10, 10, 20],
       },
-    ])
+    ],
   }
 
-  const { data, isLoading, isError, status, refetch } = useQuery(
-    'handleCaptcha',
-    () => http.get('/prod-api/captchaImage'),
-    { enabled: false }
-  )
-
-  console.log('状态', isLoading, status)
-
-  const hanldeRequest = () => {
-    // http.get('/prod-api/captchaImage').then((res) => {
-    //   console.log('=============', res)
-    // })
-    refetch()
+  const pieOption = {
+    title: {
+      text: 'Referer of a Website',
+      subtext: 'Fake Data',
+      left: 'center',
+    },
+    tooltip: {
+      trigger: 'item',
+    },
+    legend: {
+      orient: 'vertical',
+      left: 'left',
+    },
+    series: [
+      {
+        name: 'Access From',
+        type: 'pie',
+        radius: '50%',
+        data: [
+          { value: 1048, name: 'Search Engine' },
+          { value: 735, name: 'Direct' },
+          { value: 580, name: 'Email' },
+          { value: 484, name: 'Union Ads' },
+          { value: 300, name: 'Video Ads' },
+        ],
+        emphasis: {
+          itemStyle: {
+            shadowBlur: 10,
+            shadowOffsetX: 0,
+            shadowColor: 'rgba(0, 0, 0, 0.5)',
+          },
+        },
+      },
+    ],
   }
 
-  if (isLoading) {
-    return <div>loading...</div>
-  }
+  useEffect(() => {
+    echarts.init(barEchartRef.current as any).setOption(barOption)
+    echarts.init(pieEchartRef.current as any).setOption(pieOption)
+  }, [])
 
   return (
-    <div style={{ height: '100%' }}>
-      <Space size={5}>
-        <Button type="primary" onClick={() => handleAdd()}>
-          添加速度速度速度是多少
-        </Button>
-        {/* <Button
-          onClick={() => dispatch(increment())}
-          type="primary"
-          style={{ marginBottom: 16 }}
-        >
-          添加数据
-        </Button>
-        <Button
-          onClick={() => dispatch(decrement())}
-          type="primary"
-          style={{ marginBottom: 16 }}
-        >
-          删除数据
-        </Button> */}
-        <Button
-          onClick={() => dispatch(incrementByAmount(100))}
-          type="primary"
-          style={{ marginBottom: 16 }}
-        >
-          自定义数据
-        </Button>
-        <Button type="primary" onClick={hanldeRequest}>
-          请求数据
-        </Button>
-      </Space>
-      {/* <span>{state}</span> */}
-      <Table
-        // style={{ height: 'calc(100% - 150px)', overflowY: 'auto' }}
-        // scroll={{x: 'max-context', y: 300}}
-        rowClassName={() => 'editable-row'}
-        bordered
-        dataSource={tableDataSource}
-        columns={columns}
-      />
+    <div>
+      <Row justify="space-between">
+        <Col span={12}>
+          <div ref={barEchartRef} style={{ width: 500, height: 400 }} />
+        </Col>
+        <Col span={12}>
+          <div ref={pieEchartRef} style={{ width: 500, height: 400 }} />
+        </Col>
+      </Row>
     </div>
   )
 }
