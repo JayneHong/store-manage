@@ -2,13 +2,14 @@ import { Login } from '@/_bak/api/interface'
 import qs from 'qs'
 
 import http from '@/_bak/api'
+import {get} from '@/api/http'
 
 /**
  * @name 用户模块
  */
 // * 获取用户列表接口
 export const getUserListApi = (params?: any) => {
-  return http.get(`/user/getUserList`, params)
+  return get(`/api/user/list`, params)
 }
 
 // * 添加用户接口

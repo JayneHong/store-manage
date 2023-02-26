@@ -20,10 +20,15 @@ const LoginForm = (props: any) => {
       setLoading(true)
       await loginApi(loginForm)
           .then((res: any) => {
-            message.success('登录成功！', res)
+            message.success('登录成功！')
+            const token = res.data.data.token;
+            console.log('loginApi-token: ', token)
+            window.localStorage.setItem("token", token);
+
             navigate(HOME_URL)
           })
           .catch(err => {
+            window.localStorage.removeItem("token");
             console.log(err)
             message.error('登录error！')
           })
