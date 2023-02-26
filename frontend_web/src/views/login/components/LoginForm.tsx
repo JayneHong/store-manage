@@ -9,7 +9,7 @@ import {
   CloseCircleOutlined,
 } from '@ant-design/icons'
 
-import { apiUserLogin } from '@/api/user'
+import { loginApi } from '@/_bak/api/modules/login'
 import styles from '../index.module.scss'
 
 const LoginForm = (props: any) => {
@@ -23,10 +23,7 @@ const LoginForm = (props: any) => {
   const onFinish = async (loginForm: any) => {
     try {
       setLoading(true)
-      const { data } = await apiUserLogin(loginForm)
-      // setToken(data?.access_token);
-      // setTabsList([]);
-      console.log('........', data)
+      const { data } = await loginApi(loginForm)
       message.success('登录成功！', loginForm)
       navigate(HOME_URL)
     } finally {
@@ -72,7 +69,6 @@ const LoginForm = (props: any) => {
           }}
           icon={<CloseCircleOutlined />}
         >
-          {/* {t("login.reset")} */}
           重置
         </Button>
         <Button
@@ -81,7 +77,6 @@ const LoginForm = (props: any) => {
           loading={loading}
           icon={<UserOutlined />}
         >
-          {/* {t("login.confirm")} */}
           登录
         </Button>
       </Form.Item>

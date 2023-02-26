@@ -187,7 +187,7 @@ const CommodityManage = () => {
         rowClassName={() => 'editable-row'}
         bordered
         dataSource={tableDataSource}
-        columns={columns}
+        columns={columns as any}
       />
 
       <CommodityModal

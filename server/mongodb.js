@@ -1,6 +1,6 @@
 const MongoDB = require('mongodb')
 const MongoClient = MongoDB.MongoClient
-const ObjectID = MongoDB.ObjectID
+const ObjectID = MongoDB.ObjectId
 
 const CONFIG = {
   dbUrl: 'mongodb://127.0.0.1:27017/',
@@ -58,8 +58,8 @@ class DB {
     if (!collectionName || !json) throw '参数错误'
     return new Promise(async (resolve, reject) => {
       this.connect().then(async (db) => {
-        let result = db.collection(collectionName).find(json)
         try {
+          const result = db.collection(collectionName).find(json)
           resolve(await result.toArray())
         } catch (error) {
           reject(error)
@@ -71,30 +71,28 @@ class DB {
   removeDocument(collectionName, json) {
     if (!collectionName || !json) throw '参数错误'
     return new Promise((resolve, reject) => {
-      this.connect().then((db) => {
+      this.connect().then(async (db) => {
         const collection = db.collection(collectionName)
-        collection.deleteOne(json, (err, result) => {
-          if (!err) {
-            resolve(result)
-          } else {
-            reject(err)
-          }
-        })
+        try {
+          const result = await collection.deleteOne(json)
+          resolve(result)
+        } catch (error) {
+          reject(error)
+        }
       })
     })
   }
   updateDocument(collectionName, filter, json) {
     if (!collectionName || !filter || !json) throw '参数错误'
     return new Promise((resolve, reject) => {
-      this.connect().then((db) => {
+      this.connect().then(async (db) => {
         const collection = db.collection(collectionName)
-        collection.updateOne(filter, { $set: json }, (err, result) => {
-          if (!err) {
-            resolve(result)
-          } else {
-            reject(err)
-          }
-        })
+        try {
+          const result = await collection.updateOne(filter, { $set: json })
+          resolve(result)
+        } catch (error) {
+          reject(error)
+        }
       })
     })
   }
