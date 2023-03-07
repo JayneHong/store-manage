@@ -2,14 +2,23 @@ import axios from "axios";
 
 // request
 axios.interceptors.request.use(req => {
-    console.log(`${req.method} ${req.url}`);
+    let token = window.localStorage.getItem("token");
+    console.log('localStorage-token: ', token)
+    if(!token){
+        token = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTY3ODI2OTU1NH0.wI72vtXrCgvL8gH1QHDdQSjxkVC35eYDDXzgW7kFY66iYFWnY_VbbN5IGhk1kX_FH2ZJXW90fozVILyxa7fKNw";
+    }
+    console.log(`req start ... ${req.method} ${req.url}`);
+    console.log('request header token: ', token)
+    if (token) {
+        req.headers.setAuthorization(token);
+    }
     return req;
 });
 
 // response
 axios.interceptors.response.use(res => {
     console.log(res.data);
-    if(res.data.status === 200){
+    if (res.data.status === 200) {
         return res;
     }
     return Promise.reject(res.data.message);
@@ -17,7 +26,14 @@ axios.interceptors.response.use(res => {
 
 function get(url: string, param?: any) {
     const fullUrl = paramToUrl(url, param);
-    return axios.get(fullUrl, {})
+    return new Promise((resolve, reject) => {
+        axios.get(fullUrl, {})
+            .then(res => {
+                resolve(res);
+            }).catch(err => {
+            reject(err);
+        });
+    });
 }
 
 function postJson(url: string, param?: any) {

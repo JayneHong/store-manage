@@ -5,13 +5,14 @@ import { ColumnsType } from 'antd/es/table'
 import { RootState, useAppDispatch } from '@/stores'
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons'
 import { getUserListApi, deleteUserApi } from '@/_bak/api/modules/user'
-import AddUserMOdal from './components/AddUserModal'
+import AddUserModal from './components/AddUserModal'
 
 const { Search } = Input
 
 const Users = () => {
   const [showAddUserModal, setShowAddUserModal] = useState(false)
   const [updateUserData, setUpdateUserData] = useState(null)
+  const [userList, setUserList] = useState([])
   const keywordef = useRef('')
   const {
     data,
@@ -19,7 +20,10 @@ const Users = () => {
     refetch: refetchGetUserList,
   } = useQuery(
     'getUserList',
-    () => getUserListApi({ keyword: keywordef.current }),
+    () => getUserListApi({ keyword: keywordef.current }).then((res:any) => {
+        console.log('getUserList-res', res)
+        setUserList(res.data.data.list)
+    }),
     {
       enabled: false,
     }
@@ -52,7 +56,7 @@ const Users = () => {
     },
     {
       title: '手机号',
-      dataIndex: 'phoneNumber',
+      dataIndex: 'phoneNum',
       key: 'phoneNumber',
       render: (text) => text || '-',
     },
@@ -135,11 +139,11 @@ const Users = () => {
         loading={isFetching}
         rowClassName={() => 'editable-row'}
         bordered
-        rowKey="_id"
-        dataSource={data?.data as any[]}
+        rowKey="id"
+        dataSource={userList as any[]}
         columns={columns}
       />
-      <AddUserMOdal
+      <AddUserModal
         echoData={updateUserData}
         visible={showAddUserModal}
         onClose={(isQuery) => {
