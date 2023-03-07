@@ -15,8 +15,8 @@ import App from './App'
 
 // 全局设置antd message最大显示个数
 message.config({
-  duration: 5,
-  maxCount: 2,
+  duration: 4,
+  maxCount: 1,
 })
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
