@@ -1,0 +1,23 @@
+.home {
+  height: 100%;
+  .bg {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    height: 100%;
+    background: transparent url('./../../assets//th.jpeg') no-repeat;
+    background-size: cover;
+  }
+
+  .container {
+    position: relative;
+    z-index: 1;
+    padding: 20px 16px;
+    h1 {
+      font-size: 22px;
+      padding: 10px 0px;
+    }
+  }
+}

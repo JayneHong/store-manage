@@ -10,3 +10,8 @@ import http from '@/_bak/api'
 export const loginApi = (params: Login.ReqLoginForm) => {
   return http.post<Login.ResLogin>(`/login`, params)
 }
+
+// * 用户登录接口
+export const updatePassword= (params: Login.RetrievePassword) => {
+  return http.post<Login.ResLogin>(`/updatePassword`, params)
+}

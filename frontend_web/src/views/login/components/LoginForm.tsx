@@ -2,18 +2,18 @@ import { useState } from 'react'
 import { Button, Form, Input, message } from 'antd'
 import { useNavigate } from 'react-router-dom'
 import { HOME_URL } from '@/config/config'
-import {
-  CloseCircleOutlined,
-  LockOutlined,
-  UserOutlined,
-} from '@ant-design/icons'
+import { LockOutlined, UserOutlined } from '@ant-design/icons'
 
 import { loginApi } from '@/_bak/api/modules/login'
 import styles from '../index.module.scss'
 
-const LoginForm = (props: any) => {
-  // const { t } = useTranslation();
-  const { setToken, setTabsList } = props
+type LoginFormProps = {
+  /** 找回密码 */
+  retrievePassword: () => void
+}
+
+const LoginForm = (props: LoginFormProps) => {
+  const { retrievePassword } = props
   const navigate = useNavigate()
   const [form] = Form.useForm()
   const [loading, setLoading] = useState<boolean>(false)
@@ -23,7 +23,6 @@ const LoginForm = (props: any) => {
     try {
       setLoading(true)
       const { data, code } = await loginApi(loginForm)
-
       if (code === 0) {
         message.success('登录成功！', loginForm)
         navigate(HOME_URL)
@@ -41,8 +40,6 @@ const LoginForm = (props: any) => {
     <Form
       form={form}
       name="basic"
-      labelCol={{ span: 5 }}
-      initialValues={{ remember: true }}
       onFinish={onFinish}
       onFinishFailed={onFinishFailed}
       size="large"
@@ -64,15 +61,21 @@ const LoginForm = (props: any) => {
           prefix={<LockOutlined />}
         />
       </Form.Item>
-      <Form.Item className={styles['login-btn']}>
+      <Form.Item noStyle>
         <Button
-          onClick={() => {
-            form.resetFields()
+          type="link"
+          size="small"
+          onClick={retrievePassword}
+          style={{
+            position: 'relative',
+            right: '-230px',
+            top: '-16px',
           }}
-          icon={<CloseCircleOutlined />}
         >
-          重置
+          忘记密码
         </Button>
+      </Form.Item>
+      <Form.Item className={styles['login-btn']}>
         <Button
           type="primary"
           htmlType="submit"

@@ -2,9 +2,12 @@ import React, { useEffect, useRef, useState } from 'react'
 import { Table, Button, Space, Input, Popconfirm, message } from 'antd'
 import { useMutation, useQuery } from 'react-query'
 import { ColumnsType } from 'antd/es/table'
-import { RootState, useAppDispatch } from '@/stores'
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons'
-import { getUserListApi, deleteUserApi } from '@/_bak/api/modules/user'
+import {
+  getUserListApi,
+  deleteUserApi,
+  getRoleListApi,
+} from '@/_bak/api/modules/user'
 import AddUserModal from './components/AddUserModal'
 
 const { Search } = Input
@@ -12,23 +15,25 @@ const { Search } = Input
 const Users = () => {
   const [showAddUserModal, setShowAddUserModal] = useState(false)
   const [updateUserData, setUpdateUserData] = useState(null)
-  const [userList, setUserList] = useState([])
   const keywordef = useRef('')
+
+  const { data: roleData, refetch: refetchGetRoleList } = useQuery(
+    'getRoleList',
+    getRoleListApi,
+    { enabled: false }
+  )
+
   const {
     data,
     isFetching,
     refetch: refetchGetUserList,
   } = useQuery(
     'getUserList',
-    () => getUserListApi({ keyword: keywordef.current }).then((res:any) => {
-        console.log('getUserList-res', res)
-        setUserList(res.data.data.list)
-    }),
+    () => getUserListApi({ keyword: keywordef.current }),
     {
       enabled: false,
     }
   )
-
   const { mutate } = useMutation((params) => deleteUserApi(params), {
     onSuccess: () => refetchGetUserList(),
     onSettled: (data, error) => {
@@ -39,6 +44,8 @@ const Users = () => {
   const columns: ColumnsType<any[]> = [
     {
       title: '序号',
+      width: 80,
+      align: 'center',
       key: 'number',
       render: (_text, _record, index) => {
         return `${index + 1}`
@@ -50,13 +57,21 @@ const Users = () => {
       key: 'username',
     },
     {
-      title: '密码',
-      dataIndex: 'password',
-      key: 'password',
+      title: '角色',
+      dataIndex: 'roleCode',
+      key: 'roleCode',
+      render: (text) => {
+        const roleDicts = roleData?.data as {
+          roleName: string
+          roleCode: string
+        }[]
+        const roleItem = roleDicts?.find((d) => d.roleCode === text)
+        return roleItem?.roleName || '-'
+      },
     },
     {
       title: '手机号',
-      dataIndex: 'phoneNum',
+      dataIndex: 'phoneNumber',
       key: 'phoneNumber',
       render: (text) => text || '-',
     },
@@ -67,10 +82,23 @@ const Users = () => {
       key: 'address',
     },
     {
-      title: '角色',
-      dataIndex: 'role',
-      render: (text) => ((text || '-') === 'admin' ? '管理员' : '员工'),
-      key: 'role',
+      title: '密码',
+      dataIndex: 'password',
+      key: 'password',
+    },
+    {
+      title: '更新时间',
+      dataIndex: 'updatedDate',
+      key: 'updatedDate',
+      width: 160,
+      render: (text) => text || '-',
+    },
+    {
+      title: '创建时间',
+      dataIndex: 'createdDate',
+      key: 'createdDate',
+      width: 160,
+      render: (text) => text || '-',
     },
     {
       title: '操作',
@@ -114,6 +142,7 @@ const Users = () => {
 
   useEffect(() => {
     refetchGetUserList()
+    refetchGetRoleList()
   }, [])
 
   return (
@@ -121,7 +150,7 @@ const Users = () => {
       <header style={{ marginBottom: 16 }}>
         <Space size={20}>
           <Search
-            placeholder="请输入用户名"
+            placeholder="请输入用户名搜索"
             allowClear
             onSearch={(value) => {
               keywordef.current = value
@@ -134,13 +163,11 @@ const Users = () => {
         </Space>
       </header>
       <Table
-        // style={{ height: 'calc(100% - 150px)', overflowY: 'auto' }}
-        // scroll={{ x: 'max-context', y: 300 }}
         loading={isFetching}
         rowClassName={() => 'editable-row'}
         bordered
-        rowKey="id"
-        dataSource={userList as any[]}
+        rowKey="_id"
+        dataSource={data?.data as any[]}
         columns={columns}
       />
       <AddUserModal

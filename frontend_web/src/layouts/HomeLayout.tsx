@@ -1,25 +1,19 @@
 import React, { useState } from 'react'
-import {
-  MenuFoldOutlined,
-  MenuUnfoldOutlined,
-  UploadOutlined,
-  UserOutlined,
-  VideoCameraOutlined,
-} from '@ant-design/icons'
-import { Layout, Menu, theme } from 'antd'
+import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons'
+import { Layout } from 'antd'
 import { Outlet } from 'react-router-dom'
 import MainMenu from '@/components/layoutMenu'
 import LayoutHeader from '@/components/layoutHeader'
 import styles from './index.module.scss'
 
-const { Header, Sider, Content } = Layout
+const { Sider, Content } = Layout
 
 const HomeLayout: React.FC = () => {
   const [collapsed, setCollapsed] = useState(false)
-  const colorBgContainer = '#fff'
 
   return (
     <Layout className={styles['home-layout']}>
+      {/* 左侧sider */}
       <Sider
         className={styles['layout-sider']}
         trigger={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
@@ -27,22 +21,16 @@ const HomeLayout: React.FC = () => {
         collapsed={collapsed}
         onCollapse={() => setCollapsed(!collapsed)}
       >
-        <div className="logo" />
+        {/* logo */}
+        <div className="logo">超市仓库管理系统</div>
+        {/* 菜单 */}
         <MainMenu />
       </Sider>
       <Layout className="site-layout">
+        {/* 头部 */}
         <LayoutHeader />
-        <Content
-          className={styles['layout-content']}
-          // style={{
-          //   margin: '20px 16px',
-          //   padding: 20,
-          //   flex: 1,
-          //   height: 'calc(100vh - 95px)',
-          //   overflowY: 'auto',
-          //   background: colorBgContainer,
-          // }}
-        >
+        {/* 右侧内容 */}
+        <Content className={styles['layout-content']}>
           <Outlet />
         </Content>
       </Layout>

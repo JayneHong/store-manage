@@ -1,5 +1,5 @@
-import { BrowserRouter, useRoutes } from 'react-router-dom'
-import { ConfigProvider, theme } from 'antd'
+import { useRoutes } from 'react-router-dom'
+import { ConfigProvider } from 'antd'
 import routers from '@/routes/index'
 
 import {

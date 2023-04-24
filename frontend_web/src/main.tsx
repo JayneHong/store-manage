@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import { message } from 'antd'
+import dayjs from 'dayjs'
 import AuthRouter from '@/routes/utils/AuthRouter'
 import store from '@/stores'
 
@@ -20,7 +21,6 @@ message.config({
 })
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-  // <React.StrictMode>
   <Provider store={store}>
     <BrowserRouter>
       <AuthRouter>
@@ -28,5 +28,4 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
       </AuthRouter>
     </BrowserRouter>
   </Provider>
-  // </React.StrictMode>
 )

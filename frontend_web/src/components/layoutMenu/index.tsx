@@ -3,9 +3,11 @@ import {
   HomeOutlined,
   MenuFoldOutlined,
   MenuUnfoldOutlined,
-  UploadOutlined,
+  ShopOutlined,
   UserOutlined,
-  VideoCameraOutlined,
+  SettingOutlined,
+  SolutionOutlined,
+  BarChartOutlined,
 } from '@ant-design/icons'
 import { Layout, Menu, MenuProps, theme } from 'antd'
 import { useNavigate, useLocation } from 'react-router-dom'
@@ -26,6 +28,11 @@ const LayoutMenu: FC = () => {
     setOpenKeys([keys[keys.length - 1]])
   }
 
+  useEffect(() => {
+    const firstPath = '/' + currentRoute.pathname.split('/')[1]
+    setOpenKeys([firstPath])
+  }, [])
+
   return (
     <Menu
       theme="dark"
@@ -41,58 +48,84 @@ const LayoutMenu: FC = () => {
           label: '首页',
         },
         {
-          key: '/page1',
-          icon: <VideoCameraOutlined />,
-          label: '超级表格',
+          key: '/commodityManage',
+          icon: <ShopOutlined />,
+          label: '商品信息管理',
           children: [
             {
-              key: '/page3',
-              icon: <VideoCameraOutlined />,
-              label: '子页面1',
-            },
-            {
-              key: '/page4',
-              icon: <VideoCameraOutlined />,
-              label: '子页面2',
-            },
-            {
-              key: '/page5',
-              icon: <VideoCameraOutlined />,
-              label: '子页面3',
-            },
-          ],
-        },
-        {
-          key: '/users',
-          icon: <UserOutlined />,
-          label: '用户管理',
-          children: [
-            {
-              key: '/users/index',
-              // icon: <VideoCameraOutlined />,
-              label: '用户列表',
-            },
-          ],
-        },
-        {
-          key: '/basicManage',
-          icon: <UserOutlined />,
-          label: '基本管理',
-          children: [
-            {
-              key: '/basicManage/customer',
-              // icon: <VideoCameraOutlined />,
-              label: '客户管理',
-            },
-            {
-              key: '/basicManage/commodity',
-              // icon: <VideoCameraOutlined />,
+              key: '/commodityManage/commodity',
               label: '商品管理',
             },
             {
-              key: '/basicManage/supplier',
-              // icon: <VideoCameraOutlined />,
+              key: '/commodityManage/classified',
+              label: '商品分类',
+            },
+          ],
+        },
+        {
+          key: '/inventoryManage',
+          icon: <ShopOutlined />,
+          label: '库存管理',
+          children: [
+            {
+              key: '/inventoryManage/inventory',
+              label: '库存信息',
+            },
+            {
+              key: '/inventoryManage/inventoryWarning',
+              label: '库存预警',
+            },
+            {
+              key: '/inventoryManage/expiredWarning',
+              label: '临期预警',
+            },
+          ],
+        },
+        {
+          key: '/customerManage',
+          icon: <UserOutlined />,
+          label: '客户管理',
+          children: [
+            {
+              key: '/customerManage/customer',
+              label: '客户管理',
+            },
+          ],
+        },
+        {
+          key: '/supplierManage',
+          icon: <SolutionOutlined />,
+          label: '供应商管理',
+          children: [
+            {
+              key: '/supplierManage/supplier',
               label: '供应商管理',
+            },
+          ],
+        },
+        {
+          key: '/visualized',
+          icon: <BarChartOutlined />,
+          label: '可视化统计',
+          children: [
+            {
+              key: '/visualized/index',
+              label: '图表分析',
+            },
+          ],
+        },
+        {
+          key: '/system',
+          icon: <SettingOutlined />,
+          label: '系统管理',
+          children: [
+            {
+              key: '/system/users',
+              label: '用户管理',
+            },
+            {
+              key: '/system/roles',
+              label: '角色管理',
             },
           ],
         },

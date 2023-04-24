@@ -1,12 +1,15 @@
-.supplier {
+.commodityForm {
   :global {
     .ant-form-inline .ant-form-item {
       margin-bottom: 20px;
     }
     .ant-form-item .ant-form-item-label > label {
-      min-width: 100px;
+      min-width: 90px;
       display: flex;
       justify-content: flex-end;
+    }
+    .ant-form-item .ant-form-item-control {
+      width: 160px;
     }
   }
 }

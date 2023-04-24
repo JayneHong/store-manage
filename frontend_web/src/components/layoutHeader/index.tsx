@@ -1,5 +1,4 @@
 import React, { FC } from 'react'
-import { UserOutlined } from '@ant-design/icons'
 import { Layout, Avatar, Button } from 'antd'
 import { useNavigate } from 'react-router-dom'
 import styles from './index.module.scss'
@@ -17,7 +16,7 @@ const LayoutHeader: FC = () => {
 
   return (
     <Header className={styles.header}>
-      <span className={styles.title}>超市仓库管理系统</span>
+      {/* <span className={styles.title}>超市仓库管理系统</span> */}
       <div className={styles.userLogo}>
         <span>欢迎您：</span>
         <Avatar className={styles.avatar} src={vatar} />

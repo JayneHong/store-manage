@@ -1,0 +1,15 @@
+.commodity {
+  :global {
+    .ant-form-inline .ant-form-item {
+      margin-bottom: 20px;
+    }
+    .ant-form-item .ant-form-item-label > label {
+      min-width: 130px;
+      display: flex;
+      justify-content: flex-end;
+    }
+    .ant-upload-wrapper {
+      width: max-content;
+    }
+  }
+}

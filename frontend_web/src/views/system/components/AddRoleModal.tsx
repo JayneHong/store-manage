@@ -1,8 +1,14 @@
 import { FC, useEffect, useState } from 'react'
 import { Table, Button, Space, Input, Modal, Form, Radio, message } from 'antd'
 import { useMutation, useQuery } from 'react-query'
-import { addUserApi, updateUserApi } from '@/_bak/api/modules/user'
+import {
+  updateRoleApi,
+  addRoleApi,
+  getRoleListApi,
+} from '@/_bak/api/modules/user'
 import { FormInstance, useForm } from 'antd/es/form/Form'
+
+const pattern = /^ROLE-/
 
 interface AddUserModalProps {
   echoData?: any
@@ -17,7 +23,7 @@ const AddUserModal: FC<AddUserModalProps> = (props) => {
   const [form] = Form.useForm()
 
   const { mutate } = useMutation(
-    (params) => (echoData ? updateUserApi(params) : addUserApi(params)),
+    (params) => (echoData ? updateRoleApi(params) : addRoleApi(params)),
     {
       onMutate: () => {
         setLoading(true)
@@ -49,18 +55,19 @@ const AddUserModal: FC<AddUserModalProps> = (props) => {
   }
 
   useEffect(() => {
-    if (!visible) return
-    if (echoData) {
-      form.setFieldsValue({ ...echoData })
-    } else {
+    if (!visible) {
       form.resetFields()
+    } else {
+      if (echoData) {
+        form.setFieldsValue({ ...echoData })
+      }
     }
   }, [visible, echoData])
 
   return (
     <div style={{ height: '100%' }}>
       <Modal
-        title="添加用户"
+        title={`${echoData ? '编辑' : '添加'}角色`}
         open={visible}
         onCancel={handleClose}
         bodyStyle={{ padding: '20px 10px 5px' }}
@@ -86,30 +93,23 @@ const AddUserModal: FC<AddUserModalProps> = (props) => {
           onFinish={onSubmit}
         >
           <Form.Item
-            label="用户名"
-            name="username"
-            rules={[{ required: true, message: '请输入用户名' }]}
+            label="角色"
+            name="roleName"
+            rules={[{ required: true, message: '请输入角色名称' }]}
           >
             <Input />
           </Form.Item>
           <Form.Item
-            label="密码"
-            name="password"
-            rules={[{ required: true, message: '请输入用户名' }]}
+            label="角色编码"
+            name="roleCode"
+            rules={[
+              { pattern, required: true, message: '角色编码以"ROLE-"开头' },
+            ]}
           >
             <Input />
           </Form.Item>
-          <Form.Item label="手机号" name="phoneNumber">
+          <Form.Item label="备注" name="description">
             <Input />
-          </Form.Item>
-          <Form.Item label="住址" name="address">
-            <Input />
-          </Form.Item>
-          <Form.Item label="角色" name="role" initialValue="staff">
-            <Radio.Group value="staff">
-              <Radio value="staff">员工</Radio>
-              <Radio value="admin">管理员</Radio>
-            </Radio.Group>
           </Form.Item>
         </Form>
       </Modal>

@@ -18,6 +18,7 @@ import { RootState, useAppDispatch } from '@/stores'
 import http from '@/_bak/api'
 import { PlusOutlined } from '@ant-design/icons'
 import styles from './CommodityForm.module.scss'
+import { getSupplierListApi } from '@/_bak/api/modules/supplier'
 
 const tailFormItemLayout = {
   wrapperCol: {
@@ -39,16 +40,24 @@ interface CommodityFormProps {
 
 const CommodityForm: FC<CommodityFormProps> = (props) => {
   const { handleReset, handleSearch } = props
-  const dispatch = useAppDispatch()
-  const state = useSelector<RootState>((state) => state.counter.count)
 
   const [form] = Form.useForm<FormInstance>()
 
+  const {
+    data,
+    isFetching,
+    refetch: refetchGetSupplierList,
+  } = useQuery('getSupplierList', () => getSupplierListApi(), {
+    enabled: false,
+  })
+
   const onSubmit = (values: FormInstance<string>) => {
-    console.log('====================================')
-    console.log('xxxxxx', values)
-    console.log('====================================')
+    handleSearch(form)
   }
+
+  useEffect(() => {
+    refetchGetSupplierList()
+  }, [])
 
   return (
     <div className={styles.commodityForm}>
@@ -59,36 +68,20 @@ const CommodityForm: FC<CommodityFormProps> = (props) => {
         autoComplete="off"
         onFinish={onSubmit}
       >
-        <Form.Item label="供应商名称" name="usename">
+        <Form.Item label="商品名称" name="goodsName">
+          <Input placeholder="请输入商品名称" />
+        </Form.Item>
+        <Form.Item label="供应商名称" name="supplierName">
           <Select style={{ width: 160 }} placeholder="请选择供应商">
-            <Select.Option key="a" value="aa">
-              达利园
-            </Select.Option>
-            <Select.Option key="a" value="aa">
-              哇哈哈
-            </Select.Option>
-            <Select.Option key="a" value="aa">
-              蒙牛
-            </Select.Option>
+            {(data as any)?.data?.map((item: any) => (
+              <Select.Option key={item.supplierCode} value={item.supplierName}>
+                {item.supplierName}
+              </Select.Option>
+            ))}
           </Select>
         </Form.Item>
-        <Form.Item label="供应商名称" name="usename">
-          <Input />
-        </Form.Item>
-        <Form.Item label="商品名称" name="phone">
-          <Input />
-        </Form.Item>
-        <Form.Item label="商品描述" name="phone">
-          <Input />
-        </Form.Item>
-        <Form.Item label="商品规格" name="phone">
-          <Input />
-        </Form.Item>
-        <Form.Item label="生产批号" name="phone">
-          <Input />
-        </Form.Item>
-        <Form.Item label="批准文号" name="phone">
-          <Input />
+        <Form.Item label="供应商编码" name="supplierCode">
+          <Input placeholder="请输入编码" />
         </Form.Item>
         <Form.Item>
           <Space size={10} style={{ marginLeft: 20 }}>
