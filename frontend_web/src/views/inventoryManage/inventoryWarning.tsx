@@ -65,7 +65,7 @@ const InventoryManage = () => {
       title: '预警值',
       dataIndex: 'inventoryValue',
       key: 'inventoryValue',
-      render: (_text, _record, index) => {
+      render: (_text, _record) => {
         return 100
       },
     },

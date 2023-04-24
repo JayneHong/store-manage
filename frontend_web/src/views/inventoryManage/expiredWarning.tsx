@@ -70,7 +70,7 @@ const InventoryManage = () => {
       title: '离过期剩余',
       dataIndex: 'expirationTime',
       key: 'expirationTime',
-      render: (_text, _record: any, index) => {
+      render: (_text, _record: any) => {
         const expirationTime = new Date(_record.expirationTime).getTime()
         const current = Date.now()
         console.log('xxxxx', current)

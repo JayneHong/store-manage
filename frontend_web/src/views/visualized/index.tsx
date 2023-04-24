@@ -40,7 +40,7 @@ const Page1 = () => {
     }))
 
     const sortSeriesData = seriesData
-      .sort((a, b) => b.value - a.value)
+      .sort((a: { value: number }, b: { value: number }) => b.value - a.value)
       ?.slice(0, 10)
     console.log('xxxxxx', sortSeriesData)
 
@@ -118,16 +118,19 @@ const Page1 = () => {
   useEffect(() => {
     refetchGetGoodsList()
     if (!barInstanceRef1.current) {
+      // @ts-ignore
       barInstanceRef1.current = echarts.init(barEchartRef1.current as any)
     } else {
       barInstanceRef1.current.dispose()
     }
     if (!barInstanceRef.current) {
+      // @ts-ignore
       barInstanceRef.current = echarts.init(barEchartRef.current as any)
     } else {
       barInstanceRef.current.dispose()
     }
     if (!pieInstanceRef.current) {
+      // @ts-ignore
       pieInstanceRef.current = echarts.init(pieEchartRef.current as any)
     } else {
       pieInstanceRef.current.dispose()
@@ -135,9 +138,9 @@ const Page1 = () => {
   }, [])
 
   useEffect(() => {
-    barInstanceRef1.current.setOption(barOption1)
-    barInstanceRef.current.setOption(barOption)
-    pieInstanceRef.current.setOption(pieOption)
+    barInstanceRef1.current?.setOption(barOption1)
+    barInstanceRef.current?.setOption(barOption)
+    pieInstanceRef.current?.setOption(pieOption)
   }, [data])
 
   return (

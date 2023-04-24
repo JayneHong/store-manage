@@ -23,7 +23,7 @@ const config = {
   // 跨域时候允许携带凭证
   withCredentials: true,
 }
-
+// @ts-ignore
 class RequestHttp {
   service: AxiosInstance
   public constructor(config: AxiosRequestConfig) {
@@ -35,7 +35,9 @@ class RequestHttp {
      * 客户端发送请求 -> [请求拦截器] -> 服务器
      * token校验(JWT) : 接受服务器返回的token,存储到redux/本地储存当中
      */
+      // @ts-ignore
     this.service.interceptors.request.use(
+        // @ts-ignore
       (config: AxiosRequestConfig) => {
         // * 将当前请求添加到 pending 中
         axiosCanceler.addPending(config)

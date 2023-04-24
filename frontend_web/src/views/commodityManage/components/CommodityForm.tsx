@@ -51,7 +51,7 @@ const CommodityForm: FC<CommodityFormProps> = (props) => {
     enabled: false,
   })
 
-  const onSubmit = (values: FormInstance<string>) => {
+  const onSubmit = () => {
     handleSearch(form)
   }
 
